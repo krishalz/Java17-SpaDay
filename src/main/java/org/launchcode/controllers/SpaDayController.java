@@ -27,7 +27,7 @@ public class SpaDayController {
     @GetMapping(value="")
     @ResponseBody
     public String customerForm () {
-        String html = "<form method = 'post'>" +
+        String html ="<form action='/menu' method = 'post'>" +
                 "Name: <br>" +
                 "<input type = 'text' name = 'name'>" +
                 "<br>Skin type: <br>" +
@@ -41,13 +41,14 @@ public class SpaDayController {
                 "<select name = 'manipedi'>" +
                 "<option value = 'manicure'>Manicure</option>" +
                 "<option value = 'pedicure'>Pedicure</option>" +
+                "<option value = 'both'>Both</option>" +
                 "</select><br>" +
                 "<input type = 'submit' value = 'Submit'>" +
                 "</form>";
         return html;
     }
 
-    @PostMapping(value="")
+    @PostMapping(value="/menu")
     public String spaMenu(@RequestParam String name, @RequestParam String skintype, @RequestParam String manipedi, Model model) {
 
         ArrayList<String> facials = new ArrayList<>();
@@ -67,6 +68,17 @@ public class SpaDayController {
         model.addAttribute("name", name);
         model.addAttribute("skintype", skintype);
         model.addAttribute("manipedi", manipedi);
+
+//bonus #2 add colors of nail polish to be displayed
+        ArrayList<String> colorChoices = new ArrayList<>();
+        colorChoices.add("Red");
+        colorChoices.add("Orange");
+        colorChoices.add("LightBlue");
+        colorChoices.add("Green");
+        colorChoices.add("SlateBlue");
+        colorChoices.add("Violet");
+        colorChoices.add("Brown");
+        model.addAttribute("colorChoices", colorChoices);
 
         return "menu";
     }
